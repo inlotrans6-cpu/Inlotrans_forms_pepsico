@@ -1823,6 +1823,68 @@
                           style="background: linear-gradient(135deg, #001855 0%, #0039 100%); color: white; border: none; padding: 15px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; margin: 10px 0; width: 100%; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
                       🔍 Inspección de Vehículo
                   </button>
+                  <!-- ✅ SECCIÓN DE FOTOS PROFESIONAL CON CONTADOR -->
+  <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px; border-radius: 10px; border: 2px solid #001855; margin-top: 15px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #001855;">
+          <h5 style="margin: 0; color: #001855; font-size: 1.1em;">📸 Registro Fotográfico</h5>
+          <div style="background: #001855; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.9em;">
+              <span id="foto-contador-${vIndex}">0</span> / 3 fotos
+          </div>
+      </div>
+      
+      <!-- ✅ BOTONES DE FOTOS -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;">
+          <!-- Foto Inicio -->
+          <div style="text-align: center;">
+              <button type="button" onclick="tomarFotoVehiculo(${vIndex}, 'inicio')"
+                      id="btn-foto-inicio-${vIndex}"
+                      style="width: 100%; padding: 10px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85em; transition: all 0.2s;">
+                  🟢 Inicio
+              </button>
+              <input type="file" id="foto-inicio-${vIndex}" accept="image/*" capture="environment" style="display: none;" onchange="procesarFotoVehiculo(${vIndex}, 'inicio', this)">
+              <div id="preview-inicio-${vIndex}" style="margin-top: 8px; min-height: 80px; background: white; border-radius: 5px; border: 2px dashed #ced4da; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                  <span style="color: #6c757d; font-size: 0.8em;">Sin foto</span>
+              </div>
+              <input type="hidden" id="url-inicio-${vIndex}" value="">
+          </div>
+          
+          <!-- Foto Durante -->
+          <div style="text-align: center;">
+              <button type="button" onclick="tomarFotoVehiculo(${vIndex}, 'durante')"
+                      id="btn-foto-durante-${vIndex}"
+                      style="width: 100%; padding: 10px; background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%); color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85em; transition: all 0.2s;">
+                  🟡 Durante
+              </button>
+              <input type="file" id="foto-durante-${vIndex}" accept="image/*" capture="environment" style="display: none;" onchange="procesarFotoVehiculo(${vIndex}, 'durante', this)">
+              <div id="preview-durante-${vIndex}" style="margin-top: 8px; min-height: 80px; background: white; border-radius: 5px; border: 2px dashed #ced4da; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                  <span style="color: #6c757d; font-size: 0.8em;">Sin foto</span>
+              </div>
+              <input type="hidden" id="url-durante-${vIndex}" value="">
+          </div>
+          
+          <!-- Foto Fin -->
+          <div style="text-align: center;">
+              <button type="button" onclick="tomarFotoVehiculo(${vIndex}, 'fin')"
+                      id="btn-foto-fin-${vIndex}"
+                      style="width: 100%; padding: 10px; background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85em; transition: all 0.2s;">
+                  🔴 Fin
+              </button>
+              <input type="file" id="foto-fin-${vIndex}" accept="image/*" capture="environment" style="display: none;" onchange="procesarFotoVehiculo(${vIndex}, 'fin', this)">
+              <div id="preview-fin-${vIndex}" style="margin-top: 8px; min-height: 80px; background: white; border-radius: 5px; border: 2px dashed #ced4da; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                  <span style="color: #6c757d; font-size: 0.8em;">Sin foto</span>
+              </div>
+              <input type="hidden" id="url-fin-${vIndex}" value="">
+          </div>
+      </div>
+      
+      <!-- ✅ ESTADO DE FOTOS -->
+      <div id="estado-fotos-${vIndex}" style="background: #d1ecf1; color: #0c5460; padding: 10px; border-radius: 5px; font-size: 0.85em; border-left: 4px solid #17a2b8;">
+          💡 <strong>Consejo:</strong> Toma fotos en cada etapa para un mejor registro.
+      </div>
+      
+      <!-- ✅ INPUT OCULTO LEGACY (para compatibilidad) -->
+      <input type="hidden" name="vehiculo_${vIndex}_foto_url" id="foto_url_${vIndex}" value="${datos.foto_url || ''}">
+  </div>
 
                   <div class="parada-group">
                       <p style="font-weight:bold; margin-top:0; color:#555;">🛑 Parada #1 (Cargue/Descargue)</p>
@@ -2161,68 +2223,7 @@
   </div>
 
                   
-  <!-- ✅ SECCIÓN DE FOTOS PROFESIONAL CON CONTADOR -->
-  <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px; border-radius: 10px; border: 2px solid #001855; margin-top: 15px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #001855;">
-          <h5 style="margin: 0; color: #001855; font-size: 1.1em;">📸 Registro Fotográfico</h5>
-          <div style="background: #001855; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.9em;">
-              <span id="foto-contador-${vIndex}">0</span> / 3 fotos
-          </div>
-      </div>
-      
-      <!-- ✅ BOTONES DE FOTOS -->
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;">
-          <!-- Foto Inicio -->
-          <div style="text-align: center;">
-              <button type="button" onclick="tomarFotoVehiculo(${vIndex}, 'inicio')"
-                      id="btn-foto-inicio-${vIndex}"
-                      style="width: 100%; padding: 10px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85em; transition: all 0.2s;">
-                  🟢 Inicio
-              </button>
-              <input type="file" id="foto-inicio-${vIndex}" accept="image/*" capture="environment" style="display: none;" onchange="procesarFotoVehiculo(${vIndex}, 'inicio', this)">
-              <div id="preview-inicio-${vIndex}" style="margin-top: 8px; min-height: 80px; background: white; border-radius: 5px; border: 2px dashed #ced4da; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                  <span style="color: #6c757d; font-size: 0.8em;">Sin foto</span>
-              </div>
-              <input type="hidden" id="url-inicio-${vIndex}" value="">
-          </div>
-          
-          <!-- Foto Durante -->
-          <div style="text-align: center;">
-              <button type="button" onclick="tomarFotoVehiculo(${vIndex}, 'durante')"
-                      id="btn-foto-durante-${vIndex}"
-                      style="width: 100%; padding: 10px; background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%); color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85em; transition: all 0.2s;">
-                  🟡 Durante
-              </button>
-              <input type="file" id="foto-durante-${vIndex}" accept="image/*" capture="environment" style="display: none;" onchange="procesarFotoVehiculo(${vIndex}, 'durante', this)">
-              <div id="preview-durante-${vIndex}" style="margin-top: 8px; min-height: 80px; background: white; border-radius: 5px; border: 2px dashed #ced4da; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                  <span style="color: #6c757d; font-size: 0.8em;">Sin foto</span>
-              </div>
-              <input type="hidden" id="url-durante-${vIndex}" value="">
-          </div>
-          
-          <!-- Foto Fin -->
-          <div style="text-align: center;">
-              <button type="button" onclick="tomarFotoVehiculo(${vIndex}, 'fin')"
-                      id="btn-foto-fin-${vIndex}"
-                      style="width: 100%; padding: 10px; background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85em; transition: all 0.2s;">
-                  🔴 Fin
-              </button>
-              <input type="file" id="foto-fin-${vIndex}" accept="image/*" capture="environment" style="display: none;" onchange="procesarFotoVehiculo(${vIndex}, 'fin', this)">
-              <div id="preview-fin-${vIndex}" style="margin-top: 8px; min-height: 80px; background: white; border-radius: 5px; border: 2px dashed #ced4da; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                  <span style="color: #6c757d; font-size: 0.8em;">Sin foto</span>
-              </div>
-              <input type="hidden" id="url-fin-${vIndex}" value="">
-          </div>
-      </div>
-      
-      <!-- ✅ ESTADO DE FOTOS -->
-      <div id="estado-fotos-${vIndex}" style="background: #d1ecf1; color: #0c5460; padding: 10px; border-radius: 5px; font-size: 0.85em; border-left: 4px solid #17a2b8;">
-          💡 <strong>Consejo:</strong> Toma fotos en cada etapa para un mejor registro.
-      </div>
-      
-      <!-- ✅ INPUT OCULTO LEGACY (para compatibilidad) -->
-      <input type="hidden" name="vehiculo_${vIndex}_foto_url" id="foto_url_${vIndex}" value="${datos.foto_url || ''}">
-  </div>
+  
 
                   <button type="button" onclick="abrirNovedadesVehiculo(${vIndex})"
                       style="background: linear-gradient(135deg, #001855 0%, #003380 100%); color: white; border: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; margin: 15px 0; width: 100%; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
@@ -5659,4 +5660,4 @@
         })();
       </script>
       
-  </body>s
+  </body>
