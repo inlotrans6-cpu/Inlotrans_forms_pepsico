@@ -2465,17 +2465,18 @@
                   generarCamposNombresVehiculo(vIndex);
               }
               
-              document.getElementById(fotoInputId).addEventListener('change', function() {
-                  let fechaInput = document.getElementById('fecha').value;
-                  if (!fechaInput) fechaInput = new Date().toISOString().split('T')[0];
-                  
-                  const [yyyy, mm, dd] = fechaInput.split('-');
-                  const fechaFormateada = `${dd}.${mm}.${yyyy}`;
-                  const tipoVehiculo = (datos.tipo_vehi || 'vehiculo').replace(/ /g, '_');
-                  const nombrePersonalizado = `${fechaFormateada}.${tipoVehiculo}.vehiculo_${vIndex}`;
-                  
-                  setupFotoPreview(fotoInputId, previewFotoId, nombrePersonalizado);
-              });
+              const fotoInput = registro.querySelector(`#${fotoInputId}`);
+              if (fotoInput) {
+                  fotoInput.addEventListener('change', function() {
+                      let fechaInput = document.getElementById('fecha').value;
+                      if (!fechaInput) fechaInput = new Date().toISOString().split('T')[0];
+                      const [yyyy, mm, dd] = fechaInput.split('-');
+                      const fechaFormateada = `${dd}.${mm}.${yyyy}`;
+                      const tipoVehiculo = (datos.tipo_vehi || 'vehiculo').replace(/ /g, '_');
+                      const nombrePersonalizado = `${fechaFormateada}.${tipoVehiculo}.vehiculo_${vIndex}`;
+                      setupFotoPreview(fotoInputId, previewFotoId, nombrePersonalizado);
+                  });
+              }
           }
 
   // ✅ CONTADOR DE FOTOS POR VEHÍCULO
